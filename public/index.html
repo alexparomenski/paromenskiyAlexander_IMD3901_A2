@@ -7,11 +7,10 @@
       <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
       <script src= "js/create-cow-component.js"></script>
       <script src= "js/delete-cow-component.js"></script>
+      <script src= "js/pickup-object-component.js"></script>
     </head>
     <body>
         
-
-
       <!-- A-Frame scene - al A-Frame entities must go in the scene -->
       <a-scene>
         <a-assets>
@@ -24,7 +23,10 @@
         <!-- note three ways of defining color: hexidecimal, rgb, and from a list of pre-defined colours -->
         <!-- see here for more information: http://www.unm.edu/~tbeach/IT145/color.html -->
 
-        <a-entity camera look-controls wasd-controls position = "0 1.2 2" >
+        <a-entity id = "camera" 
+                  camera look-controls 
+                  wasd-controls 
+                  position = "0 1.2 2" >
             <a-entity cursor="rayOrigin:mouse;"
                       raycaster = "far:20; interval:100; objects:.clickable;">
             </a-entity>
@@ -36,19 +38,30 @@
                   rotation = "-90 0 0"
                   scale = "1 1 1"
                   geometry="primitive:plane; width:10.0; height:10.0;" 
-                  material="color:rgb(152,251,152);"></a-entity>
+                  material="color:rgb(152,251,152);">
+        </a-entity>
 
-          <a-entity id="button"
+        <a-entity id="button"
                   class = "clickable"
                   geometry="primitive:cylinder; radius:1.0 height:0.1;" 
                   material="color:yellow;"
-                  create-cow-component=""></a-entity>
+                  create-cow-component="">
+        </a-entity>
 
         <a-entity id="helmet"
             position = "0 2 -2"
             gltf-model="#helmet_model"
             animation="property:rotation; to:0 360 0; loop:true; dur:6000; easing:linear;">
         </a-entity>
+
+        <a-entity id="ball"
+            position = "0 1 0"
+            class = "clickable"
+            geometry="primitive:sphere; radius:0.5 height:1.0;" 
+            material="color:red;"
+            pickup-object-component="">
+        </a-entity>
+        
 
       </a-scene>
     </body>
