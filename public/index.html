@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Hello, WebVR! - A-Frame</title>
+      <meta name="description" content="Hello, WebVR! - A-Frame">
+      <!--  note we are using 0.9.1 as most recent -->
+      <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
+      <script src= "js/create-cow-component.js"></script>
+      <script src= "js/delete-cow-component.js"></script>
+    </head>
+    <body>
+        
+
+
+      <!-- A-Frame scene - al A-Frame entities must go in the scene -->
+      <a-scene>
+        <a-assets>
+            <a-asset-item id="helmet_model" response-type="arraybuffer" src="assets/models/DamagedHelmet.glb"></a-asset-item>
+
+        </a-assets>
+        <!-- Geometry Documentation: https://github.com/aframevr/aframe/blob/v0.8.2/docs/components/geometry.md -->
+        <!-- Material Documentation: https://github.com/aframevr/aframe/blob/v0.8.2/docs/components/material.md -->      
+
+        <!-- note three ways of defining color: hexidecimal, rgb, and from a list of pre-defined colours -->
+        <!-- see here for more information: http://www.unm.edu/~tbeach/IT145/color.html -->
+
+        <a-entity camera look-controls wasd-controls position = "0 1.2 2" >
+            <a-entity cursor="rayOrigin:mouse;"
+                      raycaster = "far:20; interval:100; objects:.clickable;">
+            </a-entity>
+
+        </a-entity>
+
+        <a-entity id="plane" 
+                  position = "0 0 0"
+                  rotation = "-90 0 0"
+                  scale = "1 1 1"
+                  geometry="primitive:plane; width:10.0; height:10.0;" 
+                  material="color:rgb(152,251,152);"></a-entity>
+
+          <a-entity id="button"
+                  class = "clickable"
+                  geometry="primitive:cylinder; radius:1.0 height:0.1;" 
+                  material="color:yellow;"
+                  create-cow-component=""></a-entity>
+
+        <a-entity id="helmet"
+            position = "0 2 -2"
+            gltf-model="#helmet_model"
+            animation="property:rotation; to:0 360 0; loop:true; dur:6000; easing:linear;">
+        </a-entity>
+
+      </a-scene>
+    </body>
+</html>
