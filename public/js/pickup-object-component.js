@@ -10,7 +10,7 @@ AFRAME.registerComponent( 'pickup-object-component',{
         Context_AF.el.addEventListener('click', function(event){
             
             if(Picked_UP){
-                Context_AF.dropBall();
+                Context_AF.dropObject();
             }
             else{
                 Context_AF.pickUpObject();
@@ -72,6 +72,7 @@ AFRAME.registerComponent( 'pickup-object-component',{
     },
 
     dropObject : function() {
+        let scene = document.querySelector('a-scene');
         const Context_AF = this;
         let camera = document.getElementById('camera');
         let wVec = camera.object3D.localToWorld(Context_AF.el.object3D.position);
@@ -80,10 +81,15 @@ AFRAME.registerComponent( 'pickup-object-component',{
         console.log(wVec.y);
         console.log(wVec.z);
         //let ball = document.getElementById('ball');
-        Context_AF.el.parentNode.removeChild(Context_AF.el);
+        //Context_AF.el.parentNode.removeChild(Context_AF.el);
+        scene.object3D.add(Context_AF.el.object3D);
+        Context_AF.el.object3D.position = (wVec.x, wVec.y, wVec.z);
+
+
         console.log("dropping item");
         Picked_UP = false;
 
+        /*
         // creating a new object in the position of the removed object
         let grabElem = document.createElement('a-entity');
         grabElem.setAttribute('position',{x: 0, y:1, z:0});
@@ -95,6 +101,7 @@ AFRAME.registerComponent( 'pickup-object-component',{
 
         let scene = document.querySelector('a-scene');
         scene.appendChild(grabElem);
+        */
     },
 
     pickUpObject : function() {
