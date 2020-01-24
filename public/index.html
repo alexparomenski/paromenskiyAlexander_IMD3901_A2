@@ -4,7 +4,10 @@
       <title>Hello, WebVR! - A-Frame</title>
       <meta name="description" content="Hello, WebVR! - A-Frame">
       <!--  note we are using 0.9.1 as most recent -->
+      <!--  physics library                        -->
       <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
+      <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+      <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
       <script src= "js/create-cow-component.js"></script>
       <script src= "js/delete-cow-component.js"></script>
       <script src= "js/pickup-object-component.js"></script>
@@ -23,6 +26,9 @@
         <!-- note three ways of defining color: hexidecimal, rgb, and from a list of pre-defined colours -->
         <!-- see here for more information: http://www.unm.edu/~tbeach/IT145/color.html -->
 
+        <a-entity 
+                  environment="preset: forest;">
+        </a-entity>
         <a-entity id = "camera" 
                   camera look-controls 
                   wasd-controls 
@@ -33,32 +39,46 @@
 
         </a-entity>
 
+        
         <a-entity id="plane" 
-                  position = "0 0 0"
+                  static-body
+                  position = "0 -0.2 0"
                   rotation = "-90 0 0"
                   scale = "1 1 1"
                   geometry="primitive:plane; width:10.0; height:10.0;" 
                   material="color:rgb(152,251,152);">
         </a-entity>
+        
 
         <a-entity id="button"
+                  static-body
                   class = "clickable"
                   geometry="primitive:cylinder; radius:1.0 height:0.1;" 
                   material="color:yellow;"
                   create-cow-component="">
         </a-entity>
-
+        <!--
         <a-entity id="helmet"
             position = "0 2 -2"
             gltf-model="#helmet_model"
             animation="property:rotation; to:0 360 0; loop:true; dur:6000; easing:linear;">
         </a-entity>
-
+        
         <a-entity id="ball"
-            position = "0 1 0"
+            dynamic-body
+            position = "0 10 0"
             class = "clickable"
             geometry="primitive:sphere; radius:0.5 height:1.0;" 
             material="color:red;"
+            pickup-object-component="">
+        </a-entity>
+        -->
+        <a-entity id="ball"
+            scale = "0.01 0.01 0.01";
+            position = "0 1 0"
+            class = "clickable"
+            obj-model = 'obj:assets/models/ball.obj';
+            
             pickup-object-component="">
         </a-entity>
         
