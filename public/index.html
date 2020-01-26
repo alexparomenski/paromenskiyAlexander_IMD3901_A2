@@ -4,18 +4,20 @@
       <title>Hello, WebVR! - A-Frame</title>
       <meta name="description" content="Hello, WebVR! - A-Frame">
       <!--  note we are using 0.9.1 as most recent -->
-      <!--  physics library                        -->
       <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
-      <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
       <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
-      <script src= "js/create-cow-component.js"></script>
+      <!--physics-->
+      <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+      
+
+      <script src= "js/spawn-ball-component.js"></script>
       <script src= "js/delete-cow-component.js"></script>
       <script src= "js/pickup-object-component.js"></script>
     </head>
     <body>
         
       <!-- A-Frame scene - al A-Frame entities must go in the scene -->
-      <a-scene>
+      <a-scene physics="gravity: -5.0">
         <a-assets>
             <a-asset-item id="helmet_model" response-type="arraybuffer" src="assets/models/DamagedHelmet.glb"></a-asset-item>
 
@@ -25,21 +27,26 @@
 
         <!-- note three ways of defining color: hexidecimal, rgb, and from a list of pre-defined colours -->
         <!-- see here for more information: http://www.unm.edu/~tbeach/IT145/color.html -->
-
+        <!--arcade music-->
+        <audio id="arcade_music" src="https://cdn.glitch.com/b1457c80-9867-4fd9-8c15-a340b035f226%2FRadical%20Heights%2C%20Match%20start%20Skydive%20music.%20Enjoy%20And%20Sub!.mp3?v=1580002979464" preload="auto" crossorigin="anonymous"></audio>
+        <a-entity sound="src:#arcade_music; autoplay:true; positional:false; volume: 0.1;"></a-entity>
+        
         <a-entity 
                   environment="preset: forest;">
         </a-entity>
         <a-entity id = "camera" 
                   camera look-controls 
                   wasd-controls 
+                  kinematic-body
                   position = "0 1.2 2" >
-            <a-entity cursor="rayOrigin:mouse;"
+            <a-entity cursor= "rayOrigin:mouse;"
+                      position="0 0 -1"
                       raycaster = "far:20; interval:100; objects:.clickable;">
             </a-entity>
+            <a-entity position="0 0 1" id="attachment"></a-entity>
 
         </a-entity>
 
-        
         <a-entity id="plane" 
                   static-body
                   position = "0 -0.2 0"
@@ -48,6 +55,39 @@
                   geometry="primitive:plane; width:10.0; height:10.0;" 
                   material="color:rgb(152,251,152);">
         </a-entity>
+
+        <a-entity id="target_1" 
+                  class = "clickable"
+                  static-body
+                  position = "0 2 -8"
+                  rotation = "0 0 0"
+                  scale = "0.1 0.1 0.1"
+                  geometry="primitive:plane; width:10.0; height:10.0;" 
+                  animation="property:rotation; to:0 0 360; loop:true; dur:6000; easing:linear;"
+                  material="color:red;">
+        </a-entity>
+
+        <a-entity id="target_2" 
+                  class = "clickable"
+                  static-body
+                  position = "4 2 -8"
+                  rotation = "0 0 0"
+                  scale = "0.1 0.1 0.1"
+                  geometry="primitive:plane; width:10.0; height:10.0;" 
+                  animation="property:rotation; to:0 0 360; loop:true; dur:6000; easing:linear;"
+                  material="color:red;">
+        </a-entity>
+
+        <a-entity id="target_3" 
+                  class = "clickable"
+                  static-body
+                  position = "-4 2 -8"
+                  rotation = "0 0 0"
+                  scale = "0.1 0.1 0.1"
+                  geometry="primitive:plane; width:10.0; height:10.0;" 
+                  animation="property:rotation; to:0 0 360; loop:true; dur:6000; easing:linear;"
+                  material="color:red;">
+        </a-entity>
         
 
         <a-entity id="button"
@@ -55,34 +95,28 @@
                   class = "clickable"
                   geometry="primitive:cylinder; radius:1.0 height:0.1;" 
                   material="color:yellow;"
-                  create-cow-component="">
-        </a-entity>
-        <!--
-        <a-entity id="helmet"
-            position = "0 2 -2"
-            gltf-model="#helmet_model"
-            animation="property:rotation; to:0 360 0; loop:true; dur:6000; easing:linear;">
+                  spawn-ball-component="">
         </a-entity>
         
-        <a-entity id="ball"
-            dynamic-body
-            position = "0 10 0"
-            class = "clickable"
-            geometry="primitive:sphere; radius:0.5 height:1.0;" 
-            material="color:red;"
-            pickup-object-component="">
-        </a-entity>
-        -->
-        <a-entity id="ball"
-            scale = "0.01 0.01 0.01";
-            position = "0 1 0"
-            class = "clickable"
-            obj-model = 'obj:assets/models/ball.obj';
-            
-            pickup-object-component="">
-        </a-entity>
-        
+        <a-entity id="instructions"  position="0 0.5 -4" rotation="-30 0 0">
+          <a-entity   
+              position="0.65 0 0.001"
+              rotation="0 0 0"
+              scale= "1 1 1"
+              geometry="primitive:plane; width: 1.5; height: 1; "
+              material= "color: black;">
+          </a-entity>
+          
+          <a-entity 
+              geometry="primitive:plane; width:3.0; height:1.2;"
+              material="color:white; shader:flat;"
+              position= "0 0 0">
+          </a-entity>
 
+          <a-entity position = "-1.4 0.5 0.01" text="value: Instructions; color:black; font:exo2bold; width:1.3; anchor:left; baseline:top; wrapCount:12"></a-entity>
+          <a-entity position = "-1.4 0.08 0.01" text="value: Hit all the obstacles to win! Press to spawn and pick up balls and press space/touch on obstacles to throw!; color:black; width:1.25; font:roboto; anchor:left; baseline:top; wrapCount:18"></a-entity>
+        </a-entity>
       </a-scene>
     </body>
 </html>
+

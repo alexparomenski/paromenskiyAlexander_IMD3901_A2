@@ -3,7 +3,7 @@ const app     = express();
 const http    = require ("http");
 const server  = http.createServer(app);
 
-const PORT    = 1111; // default 80; but we want to use another to avoid conflict
+const PORT    = 8080; // default 80; but we want to use another to avoid conflict
 
 app.use(express.static(__dirname + '/public')); // important but arcane line that tells node where "home is"
 
